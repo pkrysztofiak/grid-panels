@@ -17,8 +17,6 @@ public class GridPanel extends Panel {
     public final Observable<Orientation> orientationObservable = JavaFxObservable.valuesOf(orientationProperty);
     
     public GridPanel() {
-        panels.forEach(this::onPanelAdded);
-        panelAddedObservable.subscribe(this::onPanelAdded);
     }
     
     @Override
@@ -32,9 +30,5 @@ public class GridPanel extends Panel {
     
     public Orientation getOrientation() {
         return orientationProperty.get();
-    }
-    
-    private void onPanelAdded(Panel panel) {
-        panel.setParent(this);
     }
 }

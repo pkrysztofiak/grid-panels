@@ -4,28 +4,35 @@ import java.util.List;
 
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import pl.pkrysztofiak.gridpanels.controller.panels.ImagePanelController;
+import pl.pkrysztofiak.gridpanels.controller.panels.grid.behaviour.add.AddBehaviour;
+import pl.pkrysztofiak.gridpanels.controller.panels.grid.behaviour.add.HorizontalAdd;
+import pl.pkrysztofiak.gridpanels.controller.panels.grid.behaviour.add.VertiacalAdd;
+import pl.pkrysztofiak.gridpanels.controller.panels.grid.behaviour.remove.HorizontalRemove;
+import pl.pkrysztofiak.gridpanels.controller.panels.grid.behaviour.remove.RemoveBehaviour;
+import pl.pkrysztofiak.gridpanels.controller.panels.grid.behaviour.remove.VertiacalRemove;
 import pl.pkrysztofiak.gridpanels.model.panels.GridPanel;
 import pl.pkrysztofiak.gridpanels.model.panels.ImagePanel;
 import pl.pkrysztofiak.gridpanels.model.panels.Panel;
 import pl.pkrysztofiak.gridpanels.view.panels.GridPanelView;
 
-public class GridPanelController {
+public class GridPanelController implements AddBehaviour, RemoveBehaviour{
 
     public final GridPanel gridPanel;
-    public final GridPanelView gridPanelView = new GridPanelView();
+    public final GridPanelView gridPanelView;
     
-//    private static final Map<GridPanel, GridPanelController> gridPanelToController = new HashMap<>();
-//    private static final Map<ImagePanel, ImagePanelController> imagePanelToController = new HashMap<>();
+    private AddBehaviour addBehaviour;
+    private RemoveBehaviour removeBehaviour;
     
-    private LayoutBehaviour layoutBehaviour;
     
     public GridPanelController(GridPanel gridPanel) {
         this.gridPanel = gridPanel;
+        this.gridPanelView = new GridPanelView(gridPanel);
         
         switch (gridPanel.getOrientation()) {
         case HORIZONTAL:
@@ -41,10 +48,13 @@ public class GridPanelController {
         gridPanel.orientationObservable.subscribe(orientation -> {
             switch (orientation) {
             case HORIZONTAL:
-                layoutBehaviour = new HorizontalLayoutBehaviour();
+                addBehaviour = new HorizontalAdd();
+                removeBehaviour = new HorizontalRemove();
+                
                 break;
             case VERTICAL:
-                layoutBehaviour = new VerticalLayoutBehaviour();
+                addBehaviour = new VertiacalAdd();
+                removeBehaviour = new VertiacalRemove();
                 break;
             default:
                 break;
@@ -55,6 +65,11 @@ public class GridPanelController {
         gridPanel.panelRemovedObservable.subscribe(this::onPanelRemoved);
         
         initPanels(gridPanel.panels);
+    }
+    
+    public GridPanelController(GridPanel gridPanel, GridPanelController parentGridPanelController) {
+        this(gridPanel);
+        parentGridPanelController.add(parentGridPanelController.gridPanelView, gridPanelView, parentGridPanelController.gridPanel.panels.indexOf(gridPanel));
     }
 
     private void initPanels(List<Panel> panels) {
@@ -76,9 +91,6 @@ public class GridPanelController {
         }
     }
     
-    //WNIOSKI Panel powinien odrysowywać się od początku. To jest cecha widoku, że się przerysowuje
-    // gridpane powinien być obserwatorem czy ktoś przypadkiem nie ma jednego dziecka i jeżeli tak to samo powinien reagować
-    
     private void onPanelRemoved(Panel panel) {
         switch (panel.getType()) {
         case GRID:
@@ -93,22 +105,12 @@ public class GridPanelController {
     }
     
     private void onGridPanelAdded(GridPanel gridPanel) {
-//        if (!gridPanelToController.containsKey(gridPanel)) {
-//            gridPanelToController.put(gridPanel, new GridPanelController(gridPanel));
-//        }
-//        GridPanelController gridPanelController = gridPanelToController.get(gridPanel);
-        GridPanelController gridPanelController = new GridPanelController(gridPanel);
-        layoutBehaviour.add(gridPanelView, gridPanelController.gridPanelView, this.gridPanel.panels.indexOf(gridPanel));
+        GridPanelController gridPanelController = new GridPanelController(gridPanel, this);
+//        layoutBehaviour.add(gridPanelView, gridPanelController.gridPanelView, this.gridPanel.panels.indexOf(gridPanel));
     }
     
     private void onImagePanelAdded(ImagePanel imagePanel) {
-//        if (!imagePanelToController.containsKey(imagePanel)) {
-//            imagePanelToController.put(imagePanel, new ImagePanelController(imagePanel));
-//        }
-//        ImagePanelController imagePanelController = imagePanelToController.get(imagePanel);
-        ImagePanelController imagePanelController = new ImagePanelController(imagePanel);
-        imagePanelController.removeObservable.subscribe(gridPanel.panels::remove);
-        layoutBehaviour.add(gridPanelView, imagePanelController.imagePanelView, this.gridPanel.panels.indexOf(imagePanelController.imagePanel));
+        ImagePanelController imagePanelController = new ImagePanelController(imagePanel, this);
     }
     
     private void onGridPanelRemoved(GridPanel gridPanel) {
@@ -119,5 +121,15 @@ public class GridPanelController {
     private void onImagePanelRemoved(ImagePanel imagePanel) {
 //        ImagePanelController imagePanelController = imagePanelToController.remove(imagePanel);
 //        layoutBehaviour.remove(gridPanelView, imagePanelController.imagePanelView);
+    }
+    
+    @Override
+    public void add(GridPanelView gridPanelView, Node node, int index) {
+        addBehaviour.add(gridPanelView, node, index);
+    }
+
+    @Override
+    public void remove(GridPanelView gridPanelView, Node node) {
+        removeBehaviour.remove(gridPanelView, node);
     }
 }
