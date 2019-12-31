@@ -1,6 +1,5 @@
 package pl.pkrysztofiak.gridpanels.controller.panels;
 
-import io.reactivex.subjects.PublishSubject;
 import javafx.event.ActionEvent;
 import pl.pkrysztofiak.gridpanels.controller.panels.grid.GridPanelController;
 import pl.pkrysztofiak.gridpanels.model.panels.ImagePanel;
@@ -14,9 +13,8 @@ public class ImagePanelController {
     public final ImagePanel imagePanel;
     public final ImagePanelView imagePanelView;
     
-    public final PublishSubject<ImagePanel> removeRequestObservable = PublishSubject.create();
-    
     public ImagePanelController(ImagePanel imagePanel, GridPanelController parentGridPanelController) {
+        System.out.println("ImagePanelController()");
         this.imagePanel = imagePanel;
         this.imagePanelView = new ImagePanelView(imagePanel);
         this.parentGridPanelController = parentGridPanelController;
@@ -29,10 +27,10 @@ public class ImagePanelController {
     }
     
     private void onRemoveImagePanelViewRequest(ActionEvent actionEvent) {
-        removeRequestObservable.onNext(imagePanel);
+        parentGridPanelController.gridPanel.panels.remove(imagePanel);
     }
     
     private void onRemoveImagePanelView(Panel panel) {
-        
+        parentGridPanelController.remove(parentGridPanelController.gridPanelView, imagePanelView);
     }
 }

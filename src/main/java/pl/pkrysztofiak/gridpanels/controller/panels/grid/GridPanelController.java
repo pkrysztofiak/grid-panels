@@ -23,12 +23,13 @@ import pl.pkrysztofiak.gridpanels.view.panels.GridPanelView;
 
 public class GridPanelController implements AddBehaviour, RemoveBehaviour{
 
+    private GridPanelController parentGridPanelController;
+    
     public final GridPanel gridPanel;
     public final GridPanelView gridPanelView;
     
     private AddBehaviour addBehaviour;
     private RemoveBehaviour removeBehaviour;
-    
     
     public GridPanelController(GridPanel gridPanel) {
         this.gridPanel = gridPanel;
@@ -62,14 +63,18 @@ public class GridPanelController implements AddBehaviour, RemoveBehaviour{
         });
         
         gridPanel.panelAddedObservable.subscribe(this::onPanelAdded);
-        gridPanel.panelRemovedObservable.subscribe(this::onPanelRemoved);
         
         initPanels(gridPanel.panels);
     }
     
     public GridPanelController(GridPanel gridPanel, GridPanelController parentGridPanelController) {
         this(gridPanel);
+        this.parentGridPanelController = parentGridPanelController;
         parentGridPanelController.add(parentGridPanelController.gridPanelView, gridPanelView, parentGridPanelController.gridPanel.panels.indexOf(gridPanel));
+        
+        parentGridPanelController.gridPanel.panelRemovedObservable.filter(gridPanel::equals).subscribe(this::onGridPanelRemoved);
+        
+        gridPanel.panelRemovedObservable.subscribe(this::onPanelRemoved);
     }
 
     private void initPanels(List<Panel> panels) {
@@ -94,7 +99,7 @@ public class GridPanelController implements AddBehaviour, RemoveBehaviour{
     private void onPanelRemoved(Panel panel) {
         switch (panel.getType()) {
         case GRID:
-            onGridPanelRemoved((GridPanel) panel);
+            onGridPanelRemoved(panel);
             break;
         case IMAGE:
             onImagePanelRemoved((ImagePanel) panel);
@@ -105,17 +110,15 @@ public class GridPanelController implements AddBehaviour, RemoveBehaviour{
     }
     
     private void onGridPanelAdded(GridPanel gridPanel) {
-        GridPanelController gridPanelController = new GridPanelController(gridPanel, this);
-//        layoutBehaviour.add(gridPanelView, gridPanelController.gridPanelView, this.gridPanel.panels.indexOf(gridPanel));
+        new GridPanelController(gridPanel, this);
     }
     
     private void onImagePanelAdded(ImagePanel imagePanel) {
-        ImagePanelController imagePanelController = new ImagePanelController(imagePanel, this);
+        new ImagePanelController(imagePanel, this);
     }
     
-    private void onGridPanelRemoved(GridPanel gridPanel) {
-//        GridPanelController gridPanelController = gridPanelToController.remove(gridPanel);
-//        layoutBehaviour.remove(gridPanelView, gridPanelController.gridPanelView);
+    private void onGridPanelRemoved(Panel panel) {
+        parentGridPanelController.remove(parentGridPanelController.gridPanelView, gridPanelView);
     }
     
     private void onImagePanelRemoved(ImagePanel imagePanel) {

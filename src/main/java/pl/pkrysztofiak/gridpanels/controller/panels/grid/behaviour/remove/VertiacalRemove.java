@@ -7,6 +7,7 @@ public class VertiacalRemove implements RemoveBehaviour {
 
     @Override
     public void remove(GridPanelView gridPanelView, Node node) {
+        System.out.println("remove row constraints");
         gridPanelView.getChildren().remove(node);
         gridPanelView.getRowConstraints().remove(0);
     }
