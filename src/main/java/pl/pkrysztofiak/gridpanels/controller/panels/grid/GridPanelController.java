@@ -1,7 +1,5 @@
 package pl.pkrysztofiak.gridpanels.controller.panels.grid;
 
-import java.util.List;
-
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -16,26 +14,41 @@ import pl.pkrysztofiak.gridpanels.controller.panels.grid.behaviour.add.Vertiacal
 import pl.pkrysztofiak.gridpanels.controller.panels.grid.behaviour.remove.HorizontalRemove;
 import pl.pkrysztofiak.gridpanels.controller.panels.grid.behaviour.remove.RemoveBehaviour;
 import pl.pkrysztofiak.gridpanels.controller.panels.grid.behaviour.remove.VertiacalRemove;
-import pl.pkrysztofiak.gridpanels.model.panels.GridPanel;
-import pl.pkrysztofiak.gridpanels.model.panels.ImagePanel;
-import pl.pkrysztofiak.gridpanels.model.panels.Panel;
-import pl.pkrysztofiak.gridpanels.view.panels.GridPanelView;
+import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
+import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
+import pl.pkrysztofiak.gridpanels.model.panels.PanelModel;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.HorizontalPanelAdd;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.VerticalPanelAdd;
 
-public class GridPanelController implements AddBehaviour, RemoveBehaviour{
+public class GridPanelController implements AddBehaviour, RemoveBehaviour {
 
-    private GridPanelController parentGridPanelController;
+    private GridPanelController parentController;
     
-    public final GridPanel gridPanel;
+    public final GridPanelModel gridPanelModel;
     public final GridPanelView gridPanelView;
     
     private AddBehaviour addBehaviour;
     private RemoveBehaviour removeBehaviour;
     
-    public GridPanelController(GridPanel gridPanel) {
-        this.gridPanel = gridPanel;
-        this.gridPanelView = new GridPanelView(gridPanel);
+    public GridPanelController(GridPanelModel gridPanelModel) {
+        this.gridPanelModel = gridPanelModel;
+        this.gridPanelView = new GridPanelView(gridPanelModel);
         
-        switch (gridPanel.getOrientation()) {
+        gridPanelModel.orientationObservable.subscribe(orientation -> {
+            switch (orientation) {
+            case HORIZONTAL:
+                gridPanelView.setAddBehaviour(new HorizontalPanelAdd());
+                break;
+            case VERTICAL:
+                gridPanelView.setAddBehaviour(new VerticalPanelAdd());
+                break;
+            default:
+                break;
+            }
+        });
+        
+        switch (gridPanelModel.getOrientation()) {
         case HORIZONTAL:
             gridPanelView.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.ALWAYS, VPos.CENTER, true));
             break;
@@ -46,7 +59,7 @@ public class GridPanelController implements AddBehaviour, RemoveBehaviour{
             break;
         }
         
-        gridPanel.orientationObservable.subscribe(orientation -> {
+        gridPanelModel.orientationObservable.subscribe(orientation -> {
             switch (orientation) {
             case HORIZONTAL:
                 addBehaviour = new HorizontalAdd();
@@ -62,68 +75,37 @@ public class GridPanelController implements AddBehaviour, RemoveBehaviour{
             }
         });
         
-        gridPanel.panelAddedObservable.subscribe(this::onPanelAdded);
-        
-        initPanels(gridPanel.panels);
+        gridPanelModel.panels.forEach(this::onPanelModelAdded);
+        gridPanelModel.panelAddedObservable.subscribe(this::onPanelModelAdded);
     }
     
-    public GridPanelController(GridPanel gridPanel, GridPanelController parentGridPanelController) {
-        this(gridPanel);
-        this.parentGridPanelController = parentGridPanelController;
-        parentGridPanelController.add(parentGridPanelController.gridPanelView, gridPanelView, parentGridPanelController.gridPanel.panels.indexOf(gridPanel));
-        
-        parentGridPanelController.gridPanel.panelRemovedObservable.filter(gridPanel::equals).subscribe(this::onGridPanelRemoved);
-        
-        gridPanel.panelRemovedObservable.subscribe(this::onPanelRemoved);
-    }
-
-    private void initPanels(List<Panel> panels) {
-        for (Panel panel : panels) {
-            onPanelAdded(panel);
-        }
+    public GridPanelController(GridPanelModel gridPanelModel, GridPanelController parentController) {
+        this(gridPanelModel);
+        this.parentController = parentController;
+        parentController.addPanelView(gridPanelView, gridPanelModel);
+        parentController.gridPanelModel.panelRemovedObservable.filter(gridPanelModel::equals).subscribe(this::onRemoved);
     }
     
-    private void onPanelAdded(Panel panel) {
+    public void addPanelView(Node node, PanelModel panelModel) {
+        gridPanelView.addPanelView(node, gridPanelModel.indexOf(panelModel));
+//        addBehaviour.add(gridPanelView, node, gridPanelModel.indexOf(panelModel));
+    }
+    
+    private void onPanelModelAdded(PanelModel panel) {
         switch (panel.getType()) {
         case GRID:
-            onGridPanelAdded((GridPanel) panel);
+            new GridPanelController((GridPanelModel) panel, this);
             break;
         case IMAGE:
-            onImagePanelAdded((ImagePanel) panel);
+            new ImagePanelController((ImagePanelModel) panel, this);
             break;
         default:
             break;
         }
     }
     
-    private void onPanelRemoved(Panel panel) {
-        switch (panel.getType()) {
-        case GRID:
-            onGridPanelRemoved(panel);
-            break;
-        case IMAGE:
-            onImagePanelRemoved((ImagePanel) panel);
-            break;
-        default:
-            break;
-        }
-    }
-    
-    private void onGridPanelAdded(GridPanel gridPanel) {
-        new GridPanelController(gridPanel, this);
-    }
-    
-    private void onImagePanelAdded(ImagePanel imagePanel) {
-        new ImagePanelController(imagePanel, this);
-    }
-    
-    private void onGridPanelRemoved(Panel panel) {
-        parentGridPanelController.remove(parentGridPanelController.gridPanelView, gridPanelView);
-    }
-    
-    private void onImagePanelRemoved(ImagePanel imagePanel) {
-//        ImagePanelController imagePanelController = imagePanelToController.remove(imagePanel);
-//        layoutBehaviour.remove(gridPanelView, imagePanelController.imagePanelView);
+    private void onRemoved(PanelModel panel) {
+        parentController.remove(parentController.gridPanelView, gridPanelView);
     }
     
     @Override

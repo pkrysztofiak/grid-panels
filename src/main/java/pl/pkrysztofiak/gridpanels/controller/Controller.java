@@ -2,8 +2,8 @@ package pl.pkrysztofiak.gridpanels.controller;
 
 import pl.pkrysztofiak.gridpanels.controller.panels.grid.GridPanelController;
 import pl.pkrysztofiak.gridpanels.model.Model;
-import pl.pkrysztofiak.gridpanels.model.panels.GridPanel;
-import pl.pkrysztofiak.gridpanels.model.panels.ImagePanel;
+import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
+import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
 import pl.pkrysztofiak.gridpanels.model.panels.Orientation;
 import pl.pkrysztofiak.gridpanels.view.View;
 
@@ -16,24 +16,24 @@ public class Controller {
         model.gridPanelObservable.subscribe(this::onGridPanelChanged);
     }
     
-    private void onGridPanelChanged(GridPanel gridPanel) {
+    private void onGridPanelChanged(GridPanelModel gridPanel) {
         System.out.println("gridPanel changed");
         GridPanelController gridPanelController = new GridPanelController(gridPanel);
         view.setMainPanel(gridPanelController.gridPanelView);
     }
     
     public void loadLayout() {
-        GridPanel gridPanel = new GridPanel();
+        GridPanelModel gridPanel = new GridPanelModel();
         gridPanel.setOrientation(Orientation.HORIZONTAL);
         
-        ImagePanel imagePanel = new ImagePanel();
-        GridPanel gridPanel2 = new GridPanel();
+        ImagePanelModel imagePanel = new ImagePanelModel();
+        GridPanelModel gridPanel2 = new GridPanelModel();
         gridPanel2.setOrientation(Orientation.VERTICAL);
         
         gridPanel.panels.addAll(imagePanel, gridPanel2);
         
-        ImagePanel imagePanel2 = new ImagePanel();
-        ImagePanel imagePanel3 = new ImagePanel();
+        ImagePanelModel imagePanel2 = new ImagePanelModel();
+        ImagePanelModel imagePanel3 = new ImagePanelModel();
         
         gridPanel2.panels.addAll(imagePanel2, imagePanel3);
         

@@ -3,7 +3,7 @@ package pl.pkrysztofiak.gridpanels.view;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import pl.pkrysztofiak.gridpanels.view.panels.GridPanelView;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
 
 public class View {
 

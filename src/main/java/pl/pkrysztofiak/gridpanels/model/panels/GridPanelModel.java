@@ -7,18 +7,18 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class GridPanel extends Panel {
+public class GridPanelModel extends PanelModel {
 
-    private GridPanel parentGridPanel;
-    
-    public final ObservableList<Panel> panels = FXCollections.observableArrayList();
-    public final Observable<Panel> panelAddedObservable = JavaFxObservable.additionsOf(panels);
-    public final Observable<Panel> panelRemovedObservable = JavaFxObservable.removalsOf(panels);
+    private GridPanelModel parentGridPanelModel;
+
+    public final ObservableList<PanelModel> panels = FXCollections.observableArrayList();
+    public final Observable<PanelModel> panelAddedObservable = JavaFxObservable.additionsOf(panels);
+    public final Observable<PanelModel> panelRemovedObservable = JavaFxObservable.removalsOf(panels);
     
     private final ObjectProperty<Orientation> orientationProperty = new SimpleObjectProperty<>();
     public final Observable<Orientation> orientationObservable = JavaFxObservable.valuesOf(orientationProperty);
     
-    public GridPanel() {
+    public GridPanelModel() {
         panels.forEach(this::onPanelAdded);
         panelAddedObservable.subscribe(this::onPanelAdded);
         panelRemovedObservable.subscribe(this::onPanelRemoved);
@@ -37,14 +37,18 @@ public class GridPanel extends Panel {
         return orientationProperty.get();
     }
     
-    public void setParent(GridPanel parentGridPanel) {
-        this.parentGridPanel = parentGridPanel;
+    public void setParent(GridPanelModel parentGridPanel) {
+        this.parentGridPanelModel = parentGridPanel;
     }
     
-    private void onPanelAdded(Panel panel) {
+    public int indexOf(PanelModel panelModel) {
+        return panels.indexOf(panelModel);
+    }
+    
+    private void onPanelAdded(PanelModel panel) {
         switch (panel.getType()) {
         case GRID:
-            GridPanel gridPanel = (GridPanel) panel;
+            GridPanelModel gridPanel = (GridPanelModel) panel;
             gridPanel.setParent(this);
             break;
         default:
@@ -52,12 +56,11 @@ public class GridPanel extends Panel {
         }
     }
     
-    private void onPanelRemoved(Panel panel) {
-        System.out.println("size=" + panels.size());
+    private void onPanelRemoved(PanelModel panel) {
         switch (panels.size()) {
         case 1:
             panels.forEach(imagePanel -> {
-                ObservableList<Panel> parentPanels = parentGridPanel.panels;
+                ObservableList<PanelModel> parentPanels = parentGridPanelModel.panels;
                 int index = parentPanels.indexOf(this);
                 System.out.println("index=" + index);
                 parentPanels.set(index, imagePanel);

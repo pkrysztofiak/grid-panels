@@ -4,14 +4,14 @@ import io.reactivex.Observable;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import pl.pkrysztofiak.gridpanels.model.panels.GridPanel;
+import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
 
 public class Model {
 
-    private final ObjectProperty<GridPanel> gridPanelProperty = new SimpleObjectProperty<>();
-    public final Observable<GridPanel> gridPanelObservable = JavaFxObservable.valuesOf(gridPanelProperty);
+    private final ObjectProperty<GridPanelModel> gridPanelProperty = new SimpleObjectProperty<>();
+    public final Observable<GridPanelModel> gridPanelObservable = JavaFxObservable.valuesOf(gridPanelProperty);
     
-    public void setGridPanel(GridPanel gridPanel) {
+    public void setGridPanel(GridPanelModel gridPanel) {
         gridPanelProperty.set(gridPanel);
     }
 }
