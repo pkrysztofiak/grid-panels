@@ -9,11 +9,11 @@ public class GridPanelController {
     private final GridPaneController parentGridPanelController;
     
     public final PanelModel panelModel;
-    public GridPanelView imagePanelViewController;
+    public GridPanelView gridPanelView;
     
     public GridPanelController(PanelModel panelModel, GridPaneController parentGridPaneController, PanelsController panelsController) {
         this.panelModel = panelModel;
-        imagePanelViewController = new GridPanelView(panelModel, parentGridPaneController.gridPanelView, parentGridPaneController.gridPanelModel);
+        gridPanelView = new GridPanelView(panelModel, parentGridPaneController.gridPanelView, parentGridPaneController.gridPanelModel);
         
         this.parentGridPanelController = parentGridPaneController;
         
