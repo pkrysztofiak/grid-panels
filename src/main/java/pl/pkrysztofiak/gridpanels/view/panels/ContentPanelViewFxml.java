@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
-public abstract class ImagePanelViewFxml implements Initializable {
+public abstract class ContentPanelViewFxml implements Initializable {
 
     protected Node root;
     
@@ -22,18 +22,22 @@ public abstract class ImagePanelViewFxml implements Initializable {
 
     protected Observable<ActionEvent> removeRequestObservable;
     
-    public ImagePanelViewFxml() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/panels/ImagePanelView.fxml"));
+    public ContentPanelViewFxml() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/panels/ContentPanelView.fxml"));
         try {
-            root = fxmlLoader.load();
             fxmlLoader.setController(this);
+            root = fxmlLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("removeButton=" + removeButton);
+        
     }
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         removeRequestObservable = JavaFxObservable.actionEventsOf(removeButton);
+        System.out.println("initialize()");
     }
 }

@@ -4,8 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
+import pl.pkrysztofiak.gridpanels.model.panels.ContentPanelModel;
 import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
-import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.AddBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.HorizontalAdd;
@@ -14,15 +14,15 @@ import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.HorizontalRe
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.RemoveBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.VerticalRemove;
 
-public class ImagePanelViewController extends ImagePanelViewFxml {
+public class ContentPanelView extends ContentPanelViewFxml {
 
     private AddBehaviour addBehaviour;
     private RemoveBehaviour removeBehaviour;
     
-    private final ImagePanelModel model;
+    private final ContentPanelModel model;
     private final GridPanelModel parentModel;
     
-    public ImagePanelViewController(ImagePanelModel model, GridPanelView parentPanelView, GridPanelModel parentModel) {
+    public ContentPanelView(ContentPanelModel model, GridPanelView parentPanelView, GridPanelModel parentModel) {
         this.model = model;
         this.parentModel = parentModel;
         
@@ -49,11 +49,11 @@ public class ImagePanelViewController extends ImagePanelViewFxml {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-
         removeRequestObservable.subscribe(this::onRemoveRequest);
     }
     
     private void onRemoveRequest(ActionEvent event) {
+        System.out.println("onRemoveRequest");
         parentModel.remove(model);
     }
 }

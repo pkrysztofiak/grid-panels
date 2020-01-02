@@ -3,7 +3,7 @@ package pl.pkrysztofiak.gridpanels.controller;
 import pl.pkrysztofiak.gridpanels.controller.panels.grid.GridPanelController;
 import pl.pkrysztofiak.gridpanels.model.Model;
 import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
-import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
+import pl.pkrysztofiak.gridpanels.model.panels.ContentPanelModel;
 import pl.pkrysztofiak.gridpanels.model.panels.Orientation;
 import pl.pkrysztofiak.gridpanels.view.View;
 
@@ -26,14 +26,14 @@ public class Controller {
         GridPanelModel gridPanelModel = new GridPanelModel(Orientation.HORIZONTAL);
 //        gridPanelModel.setOrientation(Orientation.HORIZONTAL);
         
-        ImagePanelModel imagePanel = new ImagePanelModel();
+        ContentPanelModel imagePanel = new ContentPanelModel();
         GridPanelModel gridPanel2 = new GridPanelModel(Orientation.VERTICAL);
 //        gridPanel2.setOrientation(Orientation.VERTICAL);
         
         gridPanelModel.panels.addAll(imagePanel, gridPanel2);
         
-        ImagePanelModel imagePanel2 = new ImagePanelModel();
-        ImagePanelModel imagePanel3 = new ImagePanelModel();
+        ContentPanelModel imagePanel2 = new ContentPanelModel();
+        ContentPanelModel imagePanel3 = new ContentPanelModel();
         
         gridPanel2.panels.addAll(imagePanel2, imagePanel3);
         

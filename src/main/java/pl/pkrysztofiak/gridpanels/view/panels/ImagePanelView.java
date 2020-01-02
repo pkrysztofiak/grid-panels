@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
-import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
+import pl.pkrysztofiak.gridpanels.model.panels.ContentPanelModel;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.AddBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.HorizontalAdd;
@@ -26,7 +26,7 @@ public class ImagePanelView extends StackPane {
     private AddBehaviour addBehaviour;
     private RemoveBehaviour removeBehaviour;
     
-    public ImagePanelView(ImagePanelModel imagePanelModel, GridPanelView parentPanelView, GridPanelModel parentPanelModel) {
+    public ImagePanelView(ContentPanelModel imagePanelModel, GridPanelView parentPanelView, GridPanelModel parentPanelModel) {
         this.gridPanelView = parentPanelView;
         this.parentPanelModel = parentPanelModel;
         

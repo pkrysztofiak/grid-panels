@@ -2,7 +2,7 @@ package pl.pkrysztofiak.gridpanels.controller.panels.grid;
 
 import pl.pkrysztofiak.gridpanels.controller.panels.ImagePanelController;
 import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
-import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
+import pl.pkrysztofiak.gridpanels.model.panels.ContentPanelModel;
 import pl.pkrysztofiak.gridpanels.model.panels.PanelModel;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
 
@@ -36,7 +36,7 @@ public class GridPanelController {
             new GridPanelController((GridPanelModel) panel, this);
             break;
         case IMAGE:
-            new ImagePanelController((ImagePanelModel) panel, this);
+            new ImagePanelController((ContentPanelModel) panel, this);
             break;
         default:
             break;

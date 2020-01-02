@@ -1,41 +1,20 @@
 package pl.pkrysztofiak.gridpanels.controller.panels;
 
-import javafx.event.ActionEvent;
 import pl.pkrysztofiak.gridpanels.controller.panels.grid.GridPanelController;
-import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
-import pl.pkrysztofiak.gridpanels.view.panels.ImagePanelViewController;
+import pl.pkrysztofiak.gridpanels.model.panels.ContentPanelModel;
+import pl.pkrysztofiak.gridpanels.view.panels.ContentPanelView;
 
 public class ImagePanelController {
 
     private final GridPanelController parentGridPanelController;
     
-    public final ImagePanelModel imagePanelModel;
-//    public final ImagePanelView imagePanelView;
-    public ImagePanelViewController imagePanelViewController;
+    public final ContentPanelModel imagePanelModel;
+    public ContentPanelView imagePanelViewController;
     
-    public ImagePanelController(ImagePanelModel imagePanelModel, GridPanelController parentGridPanelController) {
+    public ImagePanelController(ContentPanelModel imagePanelModel, GridPanelController parentGridPanelController) {
         this.imagePanelModel = imagePanelModel;
-//        this.imagePanelView = new ImagePanelView(imagePanelModel, parentGridPanelController.gridPanelView, parentGridPanelController.gridPanelModel);
-   
-        imagePanelViewController = new ImagePanelViewController(imagePanelModel, parentGridPanelController.gridPanelView, parentGridPanelController.gridPanelModel);
-        
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/panels/ImagePanelView.fxml"));
-//        fxmlLoader.setControllerFactory(param -> new ImagePanelViewController(imagePanelModel, parentGridPanelController.gridPanelView, parentGridPanelController.gridPanelModel));
-//        
-//        try {
-//            fxmlLoader.load();
-//            imagePanelViewController = fxmlLoader.getController();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        imagePanelViewController = new ContentPanelView(imagePanelModel, parentGridPanelController.gridPanelView, parentGridPanelController.gridPanelModel);
         
         this.parentGridPanelController = parentGridPanelController;
-        
-        //TODO rewrite remove
-//        imagePanelView.removeObservable.subscribe(this::onRemoveImagePanelViewRequest);
-    }
-    
-    private void onRemoveImagePanelViewRequest(ActionEvent actionEvent) {
-        parentGridPanelController.gridPanelModel.panels.remove(imagePanelModel);
     }
 }
