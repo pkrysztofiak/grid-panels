@@ -40,7 +40,7 @@ public class GridPaneController {
             new GridPaneController((GridPaneModel) panel, this, panelsController);
             break;
         default:
-            new GridPanelController((ImagePanelModel) panel, this);
+            new GridPanelController((ImagePanelModel) panel, this, panelsController);
             break;
         }
     }
