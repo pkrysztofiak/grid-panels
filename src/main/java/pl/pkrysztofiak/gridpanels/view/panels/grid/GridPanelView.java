@@ -12,10 +12,14 @@ import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.AddPanelBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.HorizontalPanelAdd;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.VerticalPanelAdd;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.HorizontalPanelRemove;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.RemovePanelBehaviour;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.VerticalPanelRemove;
 
-public class GridPanelView extends GridPane {
+public class GridPanelView extends GridPane implements AddPanelBehaviour {
     
     private AddPanelBehaviour addBehaviour;
+    private RemovePanelBehaviour removeBehaviour;
     
     private final GridPanelModel gridPanelModel;
     private GridPanelModel parentPanelModel;
@@ -37,11 +41,13 @@ public class GridPanelView extends GridPane {
         this.parentPanelModel = parentPanelModel;
         init();
         
-        System.out.println("GridPanelView()");
+        addBehaviour = parentPanelView;
         
         parentPanelView.addPanelView(this, parentPanelModel.indexOf(gridPanelModel));
-        
-//        addPanelView(this, parentPanelModel.indexOf(gridPanelModel));
+
+        parentPanelModel.panelRemovedObservable.filter(gridPanelModel::equals).subscribe(panelModel -> {
+            parentPanelView.removePanel(this);
+        });
     }
     
     private void init() {
@@ -49,10 +55,12 @@ public class GridPanelView extends GridPane {
             switch (orientation) {
             case HORIZONTAL:
                 addBehaviour = new HorizontalPanelAdd();
+                removeBehaviour = new HorizontalPanelRemove();
                 getRowConstraints().setAll(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.ALWAYS, VPos.CENTER, true));
                 break;
             case VERTICAL:
                 addBehaviour = new VerticalPanelAdd();
+                removeBehaviour = new VerticalPanelRemove();
                 getColumnConstraints().setAll(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.ALWAYS, HPos.CENTER, true));
                 break;
             default:
@@ -62,18 +70,15 @@ public class GridPanelView extends GridPane {
     }
     
     public void removePanel(Node node) {
-        System.out.println("GridPanelView.removePanel()");
+        removeBehaviour.remove(this, node);
     }
     
     public void addPanelView(Node node, int index) {
         addBehaviour.addPanelView(this, node, index);
     }
 
-    public AddPanelBehaviour getAddBehaviour() {
-        return addBehaviour;
-    }
-
-    public void setAddBehaviour(AddPanelBehaviour addBehaviour) {
-        this.addBehaviour = addBehaviour;
+    @Override
+    public void addPanelView(GridPanelView gridPanelView, Node node, int index) {
+        addBehaviour.addPanelView(gridPanelView, node, index);
     }
 }
