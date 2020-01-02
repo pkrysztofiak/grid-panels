@@ -1,10 +1,8 @@
 package pl.pkrysztofiak.gridpanels.view.panels;
 
-import io.reactivex.Observable;
-import io.reactivex.rxjavafx.observables.JavaFxObservable;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
 import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
@@ -15,25 +13,12 @@ import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.HorizontalRe
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.RemoveBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.VerticalRemove;
 
-public class ImagePanelView extends StackPane {
+public class ImagePanelViewController extends ImagePanelViewFxml {
 
-    private final Button button = new Button("Remove");
-    public final Observable<ActionEvent> removeObservable = JavaFxObservable.actionEventsOf(button);
-    
-    private final GridPanelView gridPanelView;
-    private final GridPanelModel parentPanelModel;
-    
     private AddBehaviour addBehaviour;
     private RemoveBehaviour removeBehaviour;
     
-    public ImagePanelView(ImagePanelModel imagePanelModel, GridPanelView parentPanelView, GridPanelModel parentPanelModel) {
-        this.gridPanelView = parentPanelView;
-        this.parentPanelModel = parentPanelModel;
-        
-        
-        setStyle("-fx-background-color: yellow;");
-        getChildren().add(button);
-        
+    public ImagePanelViewController(ImagePanelModel imagePanelModel, GridPanelView parentPanelView, GridPanelModel parentPanelModel) {
         switch (parentPanelModel.getOrientation()) {
         case HORIZONTAL:
             addBehaviour = new HorizontalAdd(imagePanelModel, parentPanelView);
@@ -48,9 +33,12 @@ public class ImagePanelView extends StackPane {
         }
         
         parentPanelModel.panelRemovedObservable.filter(imagePanelModel::equals).subscribe(panel -> {
-            removeBehaviour.remove(this);
+            removeBehaviour.remove(root);
         });
-        
-        addBehaviour.add(this);
+    }
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        addBehaviour.add(root);
     }
 }

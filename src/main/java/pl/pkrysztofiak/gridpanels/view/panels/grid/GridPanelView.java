@@ -2,7 +2,6 @@ package pl.pkrysztofiak.gridpanels.view.panels.grid;
 
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -44,19 +43,18 @@ public class GridPanelView extends GridPane {
 
         switch (parentPanelModel.getOrientation()) {
         case HORIZONTAL:
-            addBehaviour = new HorizontalAdd(parentPanelView);
+            addBehaviour = new HorizontalAdd(gridPanelModel, parentPanelView);
             removeBehaviour = new HorizontalRemove(parentPanelView);
             break;
         case VERTICAL:
-            addBehaviour = new VerticalAdd(parentPanelView);
+            addBehaviour = new VerticalAdd(gridPanelModel, parentPanelView);
             removeBehaviour = new VerticalRemove(parentPanelView);
             break;
         default:
-            System.out.println("default");
             break;
         }
         
-        addBehaviour.add(this, parentPanelModel.indexOf(gridPanelModel));
+        addBehaviour.add(this);
 
         parentPanelModel.panelRemovedObservable.filter(gridPanelModel::equals).subscribe(panelModel -> {
             removeBehaviour.remove(this);
@@ -74,14 +72,6 @@ public class GridPanelView extends GridPane {
         default:
             break;
         }
-    }
-    
-    public void removePanel(Node node) {
-        removeBehaviour.remove(node);
-    }
-
-    public void setAddBehaviour(AddBehaviour addBehaviour) {
-        this.addBehaviour = addBehaviour;
     }
 
     public GridPanelModel getGridPanelModel() {

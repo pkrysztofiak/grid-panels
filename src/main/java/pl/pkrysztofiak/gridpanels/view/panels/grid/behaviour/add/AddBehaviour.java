@@ -4,5 +4,5 @@ import javafx.scene.Node;
 
 public interface AddBehaviour {
 
-    void add(Node node, int index);
+    void add(Node node);
 }
