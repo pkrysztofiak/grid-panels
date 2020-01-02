@@ -39,10 +39,8 @@ public class GridPaneController {
         case GRID:
             new GridPaneController((GridPaneModel) panel, this, panelsController);
             break;
-        case IMAGE:
-            new GridPanelController((ImagePanelModel) panel, this);
-            break;
         default:
+            new GridPanelController((ImagePanelModel) panel, this);
             break;
         }
     }

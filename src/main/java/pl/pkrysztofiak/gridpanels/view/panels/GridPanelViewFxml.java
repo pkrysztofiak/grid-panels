@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
-public abstract class ContentPanelViewFxml implements Initializable {
+public abstract class GridPanelViewFxml implements Initializable {
 
     protected Node root;
     
@@ -22,7 +22,7 @@ public abstract class ContentPanelViewFxml implements Initializable {
 
     protected Observable<ActionEvent> removeRequestObservable;
     
-    public ContentPanelViewFxml() {
+    public GridPanelViewFxml() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/panels/ContentPanelView.fxml"));
         try {
             fxmlLoader.setController(this);

@@ -14,7 +14,7 @@ import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.HorizontalRe
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.RemoveBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.VerticalRemove;
 
-public class ContentPanelView extends ContentPanelViewFxml {
+public class GridPanelView extends GridPanelViewFxml {
 
     private AddBehaviour addBehaviour;
     private RemoveBehaviour removeBehaviour;
@@ -22,7 +22,7 @@ public class ContentPanelView extends ContentPanelViewFxml {
     private final ImagePanelModel model;
     private final GridPaneModel parentModel;
     
-    public ContentPanelView(ImagePanelModel model, GridPaneView parentPanelView, GridPaneModel parentModel) {
+    public GridPanelView(ImagePanelModel model, GridPaneView parentPanelView, GridPaneModel parentModel) {
         this.model = model;
         this.parentModel = parentModel;
         
