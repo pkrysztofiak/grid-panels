@@ -18,7 +18,8 @@ public class GridPanelModel extends PanelModel {
     private final ObjectProperty<Orientation> orientationProperty = new SimpleObjectProperty<>();
     public final Observable<Orientation> orientationObservable = JavaFxObservable.valuesOf(orientationProperty);
     
-    public GridPanelModel() {
+    public GridPanelModel(Orientation orientation) {
+        orientationProperty.set(orientation);
         panels.forEach(this::onPanelAdded);
         panelAddedObservable.subscribe(this::onPanelAdded);
         panelRemovedObservable.subscribe(this::onPanelRemoved);

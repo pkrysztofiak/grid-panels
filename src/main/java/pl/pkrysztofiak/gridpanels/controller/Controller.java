@@ -23,21 +23,27 @@ public class Controller {
     }
     
     public void loadLayout() {
-        GridPanelModel gridPanel = new GridPanelModel();
-        gridPanel.setOrientation(Orientation.HORIZONTAL);
+        GridPanelModel gridPanelModel = new GridPanelModel(Orientation.HORIZONTAL);
+//        gridPanelModel.setOrientation(Orientation.HORIZONTAL);
         
         ImagePanelModel imagePanel = new ImagePanelModel();
-        GridPanelModel gridPanel2 = new GridPanelModel();
-        gridPanel2.setOrientation(Orientation.VERTICAL);
+        GridPanelModel gridPanel2 = new GridPanelModel(Orientation.VERTICAL);
+//        gridPanel2.setOrientation(Orientation.VERTICAL);
         
-        gridPanel.panels.addAll(imagePanel, gridPanel2);
+        gridPanelModel.panels.addAll(imagePanel, gridPanel2);
         
         ImagePanelModel imagePanel2 = new ImagePanelModel();
         ImagePanelModel imagePanel3 = new ImagePanelModel();
         
         gridPanel2.panels.addAll(imagePanel2, imagePanel3);
         
-        model.setGridPanel(gridPanel);
+//        GridPanelModel gridPanelModel = new GridPanelModel();
+//        gridPanelModel.setOrientation(Orientation.HORIZONTAL);
+//        ImagePanelModel imagePanelModel1 = new ImagePanelModel();
+//        ImagePanelModel imagePanelModel2 = new ImagePanelModel();
+//        gridPanelModel.panels.setAll(imagePanelModel1, imagePanelModel2);
+        
+        model.setGridPanel(gridPanelModel);
     }
     
     public void show() {
