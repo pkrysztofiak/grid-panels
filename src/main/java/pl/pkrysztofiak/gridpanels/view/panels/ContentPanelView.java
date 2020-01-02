@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
-import pl.pkrysztofiak.gridpanels.model.panels.ContentPanelModel;
-import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
-import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
+import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
+import pl.pkrysztofiak.gridpanels.model.panels.GridPaneModel;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPaneView;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.AddBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.HorizontalAdd;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.VerticalAdd;
@@ -19,10 +19,10 @@ public class ContentPanelView extends ContentPanelViewFxml {
     private AddBehaviour addBehaviour;
     private RemoveBehaviour removeBehaviour;
     
-    private final ContentPanelModel model;
-    private final GridPanelModel parentModel;
+    private final ImagePanelModel model;
+    private final GridPaneModel parentModel;
     
-    public ContentPanelView(ContentPanelModel model, GridPanelView parentPanelView, GridPanelModel parentModel) {
+    public ContentPanelView(ImagePanelModel model, GridPaneView parentPanelView, GridPaneModel parentModel) {
         this.model = model;
         this.parentModel = parentModel;
         

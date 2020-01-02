@@ -3,7 +3,8 @@ package pl.pkrysztofiak.gridpanels.view;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
+import pl.pkrysztofiak.gridpanels.view.panels.PanelsView;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPaneView;
 
 public class View {
 
@@ -11,12 +12,13 @@ public class View {
     private final Scene scene = new Scene(root, 400, 400);
     private final Stage stage = new Stage();
     
+    private final PanelsView panelsView = new PanelsView();
     
     public View() {
         stage.setScene(scene);
     }
     
-    public void setMainPanel(GridPanelView gridPanelView) {
+    public void setMainPanel(GridPaneView gridPanelView) {
         root.getChildren().add(gridPanelView);
     }
     

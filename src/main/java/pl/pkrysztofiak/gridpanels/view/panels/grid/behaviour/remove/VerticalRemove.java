@@ -1,11 +1,11 @@
 package pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove;
 
 import javafx.scene.Node;
-import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPaneView;
 
 public class VerticalRemove extends RemoveBehaviourAbstract {
 
-    public VerticalRemove(GridPanelView gridPanelView) {
+    public VerticalRemove(GridPaneView gridPanelView) {
         super(gridPanelView);
     }
 

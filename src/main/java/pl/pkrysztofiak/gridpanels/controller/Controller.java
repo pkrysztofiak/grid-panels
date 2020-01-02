@@ -1,9 +1,10 @@
 package pl.pkrysztofiak.gridpanels.controller;
 
-import pl.pkrysztofiak.gridpanels.controller.panels.grid.GridPanelController;
+import pl.pkrysztofiak.gridpanels.controller.panels.PanelsController;
+import pl.pkrysztofiak.gridpanels.controller.panels.grid.GridPaneController;
 import pl.pkrysztofiak.gridpanels.model.Model;
-import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
-import pl.pkrysztofiak.gridpanels.model.panels.ContentPanelModel;
+import pl.pkrysztofiak.gridpanels.model.panels.GridPaneModel;
+import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
 import pl.pkrysztofiak.gridpanels.model.panels.Orientation;
 import pl.pkrysztofiak.gridpanels.view.View;
 
@@ -16,24 +17,26 @@ public class Controller {
         model.gridPanelObservable.subscribe(this::onGridPanelChanged);
     }
     
-    private void onGridPanelChanged(GridPanelModel gridPanel) {
+    private void onGridPanelChanged(GridPaneModel gridPanel) {
         System.out.println("gridPanel changed");
-        GridPanelController gridPanelController = new GridPanelController(gridPanel);
+        PanelsController panelsController = new PanelsController();
+        GridPaneController gridPanelController = new GridPaneController(gridPanel, panelsController);
+        
         view.setMainPanel(gridPanelController.gridPanelView);
     }
     
     public void loadLayout() {
-        GridPanelModel gridPanelModel = new GridPanelModel(Orientation.HORIZONTAL);
+        GridPaneModel gridPanelModel = new GridPaneModel(Orientation.HORIZONTAL);
 //        gridPanelModel.setOrientation(Orientation.HORIZONTAL);
         
-        ContentPanelModel imagePanel = new ContentPanelModel();
-        GridPanelModel gridPanel2 = new GridPanelModel(Orientation.VERTICAL);
+        ImagePanelModel imagePanel = new ImagePanelModel();
+        GridPaneModel gridPanel2 = new GridPaneModel(Orientation.VERTICAL);
 //        gridPanel2.setOrientation(Orientation.VERTICAL);
         
         gridPanelModel.panels.addAll(imagePanel, gridPanel2);
         
-        ContentPanelModel imagePanel2 = new ContentPanelModel();
-        ContentPanelModel imagePanel3 = new ContentPanelModel();
+        ImagePanelModel imagePanel2 = new ImagePanelModel();
+        ImagePanelModel imagePanel3 = new ImagePanelModel();
         
         gridPanel2.panels.addAll(imagePanel2, imagePanel3);
         

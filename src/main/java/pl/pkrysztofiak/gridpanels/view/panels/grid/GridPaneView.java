@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
-import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
+import pl.pkrysztofiak.gridpanels.model.panels.GridPaneModel;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.AddBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.HorizontalAdd;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.VerticalAdd;
@@ -15,26 +15,26 @@ import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.HorizontalRe
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.RemoveBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.VerticalRemove;
 
-public class GridPanelView extends GridPane {
+public class GridPaneView extends GridPane {
     
     private AddBehaviour addBehaviour;
     private RemoveBehaviour removeBehaviour;
     
-    private final GridPanelModel gridPanelModel;
-    private GridPanelModel parentPanelModel;
-    private GridPanelView parentPanelView;
+    private final GridPaneModel gridPanelModel;
+    private GridPaneModel parentPanelModel;
+    private GridPaneView parentPanelView;
 
     {
         setVgap(16);
         setHgap(16);
     }
     
-    public GridPanelView(GridPanelModel gridPanelModel) {
+    public GridPaneView(GridPaneModel gridPanelModel) {
         this.gridPanelModel = gridPanelModel;
         init();
     }
     
-    public GridPanelView(GridPanelModel gridPanelModel, GridPanelView parentPanelView, GridPanelModel parentPanelModel) {
+    public GridPaneView(GridPaneModel gridPanelModel, GridPaneView parentPanelView, GridPaneModel parentPanelModel) {
         this.gridPanelModel = gridPanelModel;
         this.parentPanelView = parentPanelView;
         this.parentPanelModel = parentPanelModel;
@@ -74,7 +74,7 @@ public class GridPanelView extends GridPane {
         }
     }
 
-    public GridPanelModel getGridPanelModel() {
+    public GridPaneModel getGridPanelModel() {
         return gridPanelModel;
     }
 }

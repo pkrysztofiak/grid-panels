@@ -1,12 +1,12 @@
 package pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove;
 
-import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPaneView;
 
 public abstract class RemoveBehaviourAbstract implements RemoveBehaviour {
 
-    protected final GridPanelView gridPanelView;
+    protected final GridPaneView gridPanelView;
     
-    public RemoveBehaviourAbstract(GridPanelView gridPanelView) {
+    public RemoveBehaviourAbstract(GridPaneView gridPanelView) {
         this.gridPanelView = gridPanelView;
     }
 }

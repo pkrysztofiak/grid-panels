@@ -6,11 +6,11 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import pl.pkrysztofiak.gridpanels.model.panels.PanelModel;
-import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPaneView;
 
 public class HorizontalAdd extends AddBehaviourAbstract {
 
-    public HorizontalAdd(PanelModel panelModel, GridPanelView prarentPanelView) {
+    public HorizontalAdd(PanelModel panelModel, GridPaneView prarentPanelView) {
         super(panelModel, prarentPanelView);
     }
 

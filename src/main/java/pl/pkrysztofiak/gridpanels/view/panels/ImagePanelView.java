@@ -5,9 +5,9 @@ import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
-import pl.pkrysztofiak.gridpanels.model.panels.ContentPanelModel;
-import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
+import pl.pkrysztofiak.gridpanels.model.panels.GridPaneModel;
+import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPaneView;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.AddBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.HorizontalAdd;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.VerticalAdd;
@@ -20,13 +20,13 @@ public class ImagePanelView extends StackPane {
     private final Button button = new Button("Remove");
     public final Observable<ActionEvent> removeObservable = JavaFxObservable.actionEventsOf(button);
     
-    private final GridPanelView gridPanelView;
-    private final GridPanelModel parentPanelModel;
+    private final GridPaneView gridPanelView;
+    private final GridPaneModel parentPanelModel;
     
     private AddBehaviour addBehaviour;
     private RemoveBehaviour removeBehaviour;
     
-    public ImagePanelView(ContentPanelModel imagePanelModel, GridPanelView parentPanelView, GridPanelModel parentPanelModel) {
+    public ImagePanelView(ImagePanelModel imagePanelModel, GridPaneView parentPanelView, GridPaneModel parentPanelModel) {
         this.gridPanelView = parentPanelView;
         this.parentPanelModel = parentPanelModel;
         

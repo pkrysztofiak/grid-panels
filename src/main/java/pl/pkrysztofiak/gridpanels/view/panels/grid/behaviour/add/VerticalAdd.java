@@ -6,11 +6,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import pl.pkrysztofiak.gridpanels.model.panels.PanelModel;
-import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
+import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPaneView;
 
 public class VerticalAdd extends AddBehaviourAbstract {
 
-    public VerticalAdd(PanelModel panelModel, GridPanelView prarentPanelView) {
+    public VerticalAdd(PanelModel panelModel, GridPaneView prarentPanelView) {
         super(panelModel, prarentPanelView);
     }
 

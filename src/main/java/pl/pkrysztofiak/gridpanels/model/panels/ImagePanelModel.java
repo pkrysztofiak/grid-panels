@@ -1,6 +1,6 @@
 package pl.pkrysztofiak.gridpanels.model.panels;
 
-public class ContentPanelModel extends PanelModel {
+public class ImagePanelModel extends PanelModel {
 
     @Override
     public PanelType getType() {

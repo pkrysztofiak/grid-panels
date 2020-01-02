@@ -7,9 +7,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class GridPanelModel extends PanelModel {
+public class GridPaneModel extends PanelModel {
 
-    private GridPanelModel parentGridPanelModel;
+    private GridPaneModel parentGridPanelModel;
 
     public final ObservableList<PanelModel> panels = FXCollections.observableArrayList();
     public final Observable<PanelModel> panelAddedObservable = JavaFxObservable.additionsOf(panels);
@@ -18,7 +18,7 @@ public class GridPanelModel extends PanelModel {
     private final ObjectProperty<Orientation> orientationProperty = new SimpleObjectProperty<>();
     public final Observable<Orientation> orientationObservable = JavaFxObservable.valuesOf(orientationProperty);
     
-    public GridPanelModel(Orientation orientation) {
+    public GridPaneModel(Orientation orientation) {
         orientationProperty.set(orientation);
         panels.forEach(this::onPanelAdded);
         panelAddedObservable.subscribe(this::onPanelAdded);
@@ -38,7 +38,7 @@ public class GridPanelModel extends PanelModel {
         return orientationProperty.get();
     }
     
-    public void setParent(GridPanelModel parentGridPanel) {
+    public void setParent(GridPaneModel parentGridPanel) {
         this.parentGridPanelModel = parentGridPanel;
     }
     
@@ -53,7 +53,7 @@ public class GridPanelModel extends PanelModel {
     private void onPanelAdded(PanelModel panel) {
         switch (panel.getType()) {
         case GRID:
-            GridPanelModel gridPanel = (GridPanelModel) panel;
+            GridPaneModel gridPanel = (GridPaneModel) panel;
             gridPanel.setParent(this);
             break;
         default:
