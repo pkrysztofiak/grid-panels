@@ -16,14 +16,13 @@ public class ImagePanelController {
     public ImagePanelController(ImagePanelModel imagePanel, GridPanelController parentGridPanelController) {
         System.out.println("ImagePanelController()");
         this.imagePanel = imagePanel;
-        this.imagePanelView = new ImagePanelView(imagePanel);
+        this.imagePanelView = new ImagePanelView(imagePanel, parentGridPanelController.gridPanelView, parentGridPanelController.gridPanelModel);
         this.parentGridPanelController = parentGridPanelController;
         
-        parentGridPanelController.add(parentGridPanelController.gridPanelView, imagePanelView, parentGridPanelController.gridPanelModel.panels.indexOf(imagePanel));
+//        parentGridPanelController.add(parentGridPanelController.gridPanelView, imagePanelView, parentGridPanelController.gridPanelModel.panels.indexOf(imagePanel));
         
         imagePanelView.removeObservable.subscribe(this::onRemoveImagePanelViewRequest);
-        
-        parentGridPanelController.gridPanelModel.panelRemovedObservable.filter(imagePanel::equals).subscribe(this::onRemoveImagePanelView);
+//        parentGridPanelController.gridPanelModel.panelRemovedObservable.filter(imagePanel::equals).subscribe(this::onRemoveImagePanelView);
     }
     
     private void onRemoveImagePanelViewRequest(ActionEvent actionEvent) {
