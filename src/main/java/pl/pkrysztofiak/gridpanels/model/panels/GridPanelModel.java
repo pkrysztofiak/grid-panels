@@ -46,6 +46,10 @@ public class GridPanelModel extends PanelModel {
         return panels.indexOf(panelModel);
     }
     
+    public void remove(PanelModel panelModel) {
+        panels.remove(panelModel);
+    }
+    
     private void onPanelAdded(PanelModel panel) {
         switch (panel.getType()) {
         case GRID:

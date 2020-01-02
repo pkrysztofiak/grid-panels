@@ -3,6 +3,7 @@ package pl.pkrysztofiak.gridpanels.view.panels;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import pl.pkrysztofiak.gridpanels.model.panels.GridPanelModel;
 import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
@@ -18,27 +19,41 @@ public class ImagePanelViewController extends ImagePanelViewFxml {
     private AddBehaviour addBehaviour;
     private RemoveBehaviour removeBehaviour;
     
-    public ImagePanelViewController(ImagePanelModel imagePanelModel, GridPanelView parentPanelView, GridPanelModel parentPanelModel) {
-        switch (parentPanelModel.getOrientation()) {
+    private final ImagePanelModel model;
+    private final GridPanelModel parentModel;
+    
+    public ImagePanelViewController(ImagePanelModel model, GridPanelView parentPanelView, GridPanelModel parentModel) {
+        this.model = model;
+        this.parentModel = parentModel;
+        
+        switch (parentModel.getOrientation()) {
         case HORIZONTAL:
-            addBehaviour = new HorizontalAdd(imagePanelModel, parentPanelView);
+            addBehaviour = new HorizontalAdd(model, parentPanelView);
             removeBehaviour = new HorizontalRemove(parentPanelView);
             break;
         case VERTICAL:
-            addBehaviour = new VerticalAdd(imagePanelModel, parentPanelView);
+            addBehaviour = new VerticalAdd(model, parentPanelView);
             removeBehaviour = new VerticalRemove(parentPanelView);
             break;
         default:
             break;
         }
-        
-        parentPanelModel.panelRemovedObservable.filter(imagePanelModel::equals).subscribe(panel -> {
+
+        parentModel.panelRemovedObservable.filter(model::equals).subscribe(panel -> {
             removeBehaviour.remove(root);
         });
+        
+        addBehaviour.add(root);
     }
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        addBehaviour.add(root);
+        super.initialize(location, resources);
+
+        removeRequestObservable.subscribe(this::onRemoveRequest);
+    }
+    
+    private void onRemoveRequest(ActionEvent event) {
+        parentModel.remove(model);
     }
 }
