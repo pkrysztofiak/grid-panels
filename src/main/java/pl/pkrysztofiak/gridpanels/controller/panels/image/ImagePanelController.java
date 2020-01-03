@@ -1,8 +1,9 @@
-package pl.pkrysztofiak.gridpanels.controller.panels;
+package pl.pkrysztofiak.gridpanels.controller.panels.image;
 
+import pl.pkrysztofiak.gridpanels.controller.panels.PanelsController;
 import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
-import pl.pkrysztofiak.gridpanels.view.panels.content.ImagePanelView;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPanelView;
+import pl.pkrysztofiak.gridpanels.view.panels.image.ImagePanelView;
 
 public class ImagePanelController {
     

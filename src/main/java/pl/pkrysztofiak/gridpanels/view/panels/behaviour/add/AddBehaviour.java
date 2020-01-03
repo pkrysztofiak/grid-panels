@@ -1,4 +1,4 @@
-package pl.pkrysztofiak.gridpanels.view.panels.content.behaviour.add;
+package pl.pkrysztofiak.gridpanels.view.panels.behaviour.add;
 
 import javafx.scene.Node;
 import pl.pkrysztofiak.gridpanels.view.panels.PanelsView;

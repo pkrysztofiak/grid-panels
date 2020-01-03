@@ -4,5 +4,4 @@ import javafx.scene.layout.Pane;
 
 public class PanelsView extends Pane {
 
-    
 }
