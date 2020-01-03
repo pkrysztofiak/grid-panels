@@ -18,11 +18,12 @@ public class Controller {
     }
     
     private void onGridPanelChanged(GridPaneModel gridPanel) {
-        System.out.println("gridPanel changed");
         PanelsController panelsController = new PanelsController();
         GridPaneController gridPanelController = new GridPaneController(gridPanel, panelsController);
         
-        view.setMainPanel(gridPanelController.gridPanelView);
+        view.root.getChildren().addAll(gridPanelController.gridPanelView, panelsController.panelsView);
+        
+//        view.setMainPanel(gridPanelController.gridPanelView);
     }
     
     public void loadLayout() {

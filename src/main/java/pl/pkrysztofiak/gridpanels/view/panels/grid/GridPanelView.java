@@ -1,12 +1,14 @@
-package pl.pkrysztofiak.gridpanels.view.panels;
+package pl.pkrysztofiak.gridpanels.view.panels.grid;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.StackPane;
 import pl.pkrysztofiak.gridpanels.model.panels.GridPaneModel;
 import pl.pkrysztofiak.gridpanels.model.panels.PanelModel;
-import pl.pkrysztofiak.gridpanels.view.panels.grid.GridPaneView;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.AddBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.HorizontalAdd;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.VerticalAdd;
@@ -26,6 +28,14 @@ public class GridPanelView extends GridPanelViewFxml {
         this.model = panelModel;
         this.parentModel = parentModel;
         
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/panels/GridPanelView.fxml"));
+        try {
+            fxmlLoader.setController(this);
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         switch (parentModel.getOrientation()) {
         case HORIZONTAL:
             addBehaviour = new HorizontalAdd(panelModel, parentPanelView);
@@ -44,6 +54,12 @@ public class GridPanelView extends GridPanelViewFxml {
         });
         
         addBehaviour.add(root);
+
+        root.localToSceneTransformProperty();
+    }
+    
+    public StackPane getRoot() {
+        return root;
     }
     
     @Override
