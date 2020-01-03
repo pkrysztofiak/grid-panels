@@ -2,6 +2,7 @@ package pl.pkrysztofiak.gridpanels.controller;
 
 import pl.pkrysztofiak.gridpanels.controller.panels.PanelsController;
 import pl.pkrysztofiak.gridpanels.controller.panels.grid.GridPaneController;
+import pl.pkrysztofiak.gridpanels.controller.sidebar.left.LeftSidebarController;
 import pl.pkrysztofiak.gridpanels.model.Model;
 import pl.pkrysztofiak.gridpanels.model.panels.GridPaneModel;
 import pl.pkrysztofiak.gridpanels.model.panels.ImagePanelModel;
@@ -15,15 +16,16 @@ public class Controller {
     
     public Controller() {
         model.gridPanelObservable.subscribe(this::onGridPanelChanged);
+        
     }
     
     private void onGridPanelChanged(GridPaneModel gridPanel) {
         PanelsController panelsController = new PanelsController();
         GridPaneController gridPanelController = new GridPaneController(gridPanel, panelsController);
         
-        view.root.getChildren().addAll(gridPanelController.gridPanelView, panelsController.panelsView);
-        
-//        view.setMainPanel(gridPanelController.gridPanelView);
+        LeftSidebarController leftSidebarController = new LeftSidebarController();
+        view.setLeft(leftSidebarController.leftSideBarView);
+        view.root.getChildren().addAll(panelsController.panelsView, gridPanelController.gridPanelView);
     }
     
     public void loadLayout() {

@@ -9,6 +9,5 @@ public class ImagePanelController {
     
     public ImagePanelController(ImagePanelModel imagePanelModel, PanelsController panelsController, GridPanelView gridPanelView) {
         ImagePanelView imagePanelView = new ImagePanelView(imagePanelModel, panelsController.panelsView, gridPanelView);
-        imagePanelView.init();
     }
 }

@@ -14,7 +14,7 @@ public class ImagePanelView extends StackPane {
     private final GridPanelView gridPanelView;
     
     {
-        setStyle("-fx-background-color: purple;");
+        setStyle("-fx-background-color: orange;");
     }
     
     public ImagePanelView(ImagePanelModel imagePanelModel, PanelsView panelsView, GridPanelView gridPanelView) {
@@ -22,9 +22,18 @@ public class ImagePanelView extends StackPane {
         addBehaviour = new AddBehaviour(panelsView);
         addBehaviour.add(this);
         
+        setOnMouseClicked(event -> {
+            System.out.println("ImagePanelView mouseClicked");
+        });
+        
+        setOnMouseMoved(event -> {
+            System.out.println("mouse move");
+        });
+        
         JavaFxObservable.valuesOf(gridPanelView.getRoot().localToSceneTransformProperty()).subscribe(transform -> {
             double sceneX = transform.getTx();
             double sceneY = transform.getTy();
+            System.out.println("sceneX=" + sceneX + ", sceneY=" + sceneY);
             
             Point2D sceneToLocal = panelsView.sceneToLocal(sceneX, sceneY);
             
@@ -32,18 +41,19 @@ public class ImagePanelView extends StackPane {
             double localY = sceneToLocal.getY();
             setLayoutX(localX);
             setLayoutY(localY);
+
+            //TODO to jest hack
+            panelsView.layout();
         });
         
         JavaFxObservable.valuesOf(gridPanelView.getRoot().widthProperty()).map(Number::doubleValue).subscribe(width -> {
+            System.out.println("width=" + width);
             setPrefWidth(width);
         });
         
         JavaFxObservable.valuesOf(gridPanelView.getRoot().heightProperty()).map(Number::doubleValue).subscribe(height -> {
+            System.out.println("height=" + height);
             setPrefHeight(height);
         });
-    }
-    
-    public void init() {
-        
     }
 }

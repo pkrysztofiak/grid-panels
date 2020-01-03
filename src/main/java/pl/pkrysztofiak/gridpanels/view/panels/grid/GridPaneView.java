@@ -27,6 +27,7 @@ public class GridPaneView extends GridPane {
     {
         setVgap(16);
         setHgap(16);
+        setPickOnBounds(false);
     }
     
     public GridPaneView(GridPaneModel gridPanelModel) {

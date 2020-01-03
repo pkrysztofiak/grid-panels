@@ -15,6 +15,7 @@ import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.add.VerticalAdd;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.HorizontalRemove;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.RemoveBehaviour;
 import pl.pkrysztofiak.gridpanels.view.panels.grid.behaviour.remove.VerticalRemove;
+import pl.pkrysztofiak.gridpanels.view.transfer.ImageTransfer;
 
 public class GridPanelView extends GridPanelViewFxml {
 
@@ -53,9 +54,22 @@ public class GridPanelView extends GridPanelViewFxml {
             removeBehaviour.remove(root);
         });
         
+        root.setPickOnBounds(false);
+        parentPanelView.setPickOnBounds(false);
+        
         addBehaviour.add(root);
-
+        
         root.localToSceneTransformProperty();
+        
+        ImageTransfer.startedPublishable.subscribe(nothing -> {
+            System.out.println("root.setPickOnBounds(true)");
+            root.setPickOnBounds(true);
+        });
+        
+        ImageTransfer.finishedPublishable.subscribe(nothing -> {
+            System.out.println("root.setPickOnBounds(false)");
+            root.setPickOnBounds(false);
+        });
     }
     
     public StackPane getRoot() {
@@ -65,7 +79,8 @@ public class GridPanelView extends GridPanelViewFxml {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        removeRequestObservable.subscribe(this::onRemoveRequest);
+//        super.initialize(location, resources);
+//        removeRequestObservable.subscribe(this::onRemoveRequest);
     }
     
     private void onRemoveRequest(ActionEvent event) {
