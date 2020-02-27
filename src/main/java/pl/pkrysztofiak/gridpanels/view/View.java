@@ -7,7 +7,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class View {
-
     
     public final StackPane root = new StackPane();
     private final BorderPane borderPane = new BorderPane(root);
