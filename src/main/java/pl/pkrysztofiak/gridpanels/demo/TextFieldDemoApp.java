@@ -8,8 +8,6 @@ import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import javafx.application.Application;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
@@ -18,12 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class TextFieldDemoApp extends Application {
-
-    private final BooleanProperty activeProperty = new SimpleBooleanProperty();
-    private final Observable<Boolean> activeObservable = JavaFxObservable.valuesOf(activeProperty);
-   
-    private final BooleanProperty activeProperty2 = new SimpleBooleanProperty();
-    private final Observable<Boolean> activeObservable2 = JavaFxObservable.valuesOf(activeProperty2);
    
     public static void main(String[] args) {
         launch(args);
@@ -42,15 +34,17 @@ public class TextFieldDemoApp extends Application {
         Observable<Boolean> focusedObservable2 = JavaFxObservable.valuesOf(textField2.focusedProperty());
         Observable<String> textObservable2 = JavaFxObservable.valuesOf(textField2.textProperty());
        
-        focusedObservable.delay(0, TimeUnit.SECONDS, Schedulers.single()).subscribe(activeProperty::set);
-        focusedObservable2.delay(0, TimeUnit.SECONDS, Schedulers.single()).subscribe(activeProperty2::set);
+//        focusedObservable.delay(0, TimeUnit.SECONDS, Schedulers.single()).subscribe(activeProperty::set);
+//        focusedObservable2.delay(0, TimeUnit.SECONDS, Schedulers.single()).subscribe(activeProperty2::set);
        
         focusedObservable
         .filter(Boolean.TRUE::equals)
         .switchMap(focused -> textObservable.skip(1).takeUntil(focusedObservable.filter(Boolean.FALSE::equals)))
         .subscribe(kowalski.setNameRequest::onNext);
        
-        activeObservable
+//        activeObservable
+        focusedObservable
+        .delay(0, TimeUnit.SECONDS, Schedulers.single())
         .filter(Boolean.FALSE::equals)
         .switchMap(inactive -> kowalski.nameObservable.takeUntil(focusedObservable.filter(Boolean.TRUE::equals)))
         .observeOn(JavaFxScheduler.platform())
@@ -61,7 +55,9 @@ public class TextFieldDemoApp extends Application {
         .switchMap(focused -> textObservable2.skip(1).takeUntil(focusedObservable2.filter(Boolean.FALSE::equals)))
         .subscribe(kowalski.setNameRequest::onNext);
        
-        activeObservable2
+//        activeObservable2
+        focusedObservable2
+        .delay(0, TimeUnit.SECONDS, Schedulers.single())
         .filter(Boolean.FALSE::equals)
         .switchMap(inactive -> kowalski.nameObservable.takeUntil(focusedObservable2.filter(Boolean.TRUE::equals)))
         .observeOn(JavaFxScheduler.platform())
